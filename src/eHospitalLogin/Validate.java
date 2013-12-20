@@ -2,6 +2,8 @@ package eHospitalLogin;
 
 import java.sql.*;
 
+import static eHospitalUserManagement.UserDAO.toMD5;
+
 // Referenced classes of package eHospitalLogin:
 //            ConnectionManager
 
@@ -20,7 +22,7 @@ public class Validate
             con = ConnectionManager.getConnection();
             PreparedStatement ps = con.prepareStatement("select * from users where username=? and password=?");
             ps.setString(1, email);
-            ps.setString(2, pass);
+            ps.setString(2, toMD5(pass));
             ResultSet rs = ps.executeQuery();
             st = rs.next();
         }

@@ -17,14 +17,45 @@ public class Login extends HttpServlet
     public Login()
     {
     }
-
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException
     {
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String email = request.getParameter("username");
         String pass = request.getParameter("password");
+
+        if(Validate.checkUser(email, pass))
+        {
+            int userId = Validate.checkUserid(email);
+            UserBean user = new UserBean();
+            user = UserDAO.setUser(userId);
+            HttpSession session = request.getSession(true);
+            session.setAttribute("currentSessionUser", user);
+
+            RequestDispatcher rs = request.getRequestDispatcher("home1.jsp");
+            rs.forward(request, response);
+        } else
+        {
+            request.setAttribute("loginResult", Boolean.valueOf(true));
+            out.println("Username or Password incorrect");
+            RequestDispatcher rs = request.getRequestDispatcher("invalidLogin.jsp");
+            rs.include(request, response);
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+        String email = request.getParameter("username");
+        String pass = request.getParameter("password");
+
         if(Validate.checkUser(email, pass))
         {
             int userId = Validate.checkUserid(email);

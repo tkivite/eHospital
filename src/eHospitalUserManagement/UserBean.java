@@ -1,6 +1,9 @@
 package eHospitalUserManagement;
 
 
+import java.util.ArrayList;
+import java.util.Map;
+
 public class UserBean
 {
 
@@ -106,6 +109,12 @@ public class UserBean
     public void setConfirm_password(String confirm_password)
     {
         this.confirm_password = confirm_password;
+    }
+    public ArrayList get_Users()
+    {
+
+
+      return UserDAO.getAllUsers();
     }
 
     private String username;

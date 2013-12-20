@@ -17,7 +17,7 @@ public class ConnectionManager
             Class.forName("com.mysql.jdbc.Driver");
             try
             {
-                con = DriverManager.getConnection("jdbc:mysql://localhost/eHospital", "root", "1SUPERtitus");
+                con = DriverManager.getConnection("jdbc:mysql://localhost/eHospital", "root", "SUPERtitus");
             }
             catch(SQLException ex)
             {
@@ -36,5 +36,5 @@ public class ConnectionManager
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     static final String DB_URL = "jdbc:mysql://localhost/eHospital";
     static final String USER = "root";
-    static final String PASS = "1SUPERtitus";
+    static final String PASS = "SUPERtitus";
 }

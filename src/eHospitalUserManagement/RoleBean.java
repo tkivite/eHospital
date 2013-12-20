@@ -105,6 +105,56 @@ public class RoleBean
     private String date_created;
     private String changed_by;
     private String date_changed;
+
+    public String getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(String role_id) {
+        this.role_id = role_id;
+    }
+
+    public RoleBean getRole(String role_id) {
+        RoleBean role=new RoleBean();
+        role.setRole_id(role_id);
+        role=RoleDAO.viewRole(role);
+        return role;
+    }
+
+
+    private String role_id;
+
+    public void setApp_name(String app_name) {
+        this.app_name = app_name;
+    }
+
+    public void setApp_url(String app_url) {
+        this.app_url = app_url;
+    }
+
+    public String getApp_url() {
+        return app_url;
+    }
+
+    public String getApp_name() {
+        return app_name;
+    }
+
+    public String getIcon_name() {
+        return icon_name;
+    }
+
+    public void setIcon_name(String icon_name) {
+        this.icon_name = icon_name;
+    }
+
+
+    private String app_url;
+    private String app_name;
+
+   private String icon_name;
+
+
     public boolean exists;
     public boolean inserted;
 }

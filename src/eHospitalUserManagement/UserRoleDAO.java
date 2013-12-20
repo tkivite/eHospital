@@ -2,58 +2,336 @@ package eHospitalUserManagement;
 
 import eHospitalLogin.ConnectionManager;
 import java.io.PrintStream;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 // Referenced classes of package eHospitalUserManagement:
-//            UserBean
+//            RoleBean
 
-public class UserDAO
+public class UserRoleDAO
 {
 
-    public UserDAO()
+    public UserRoleDAO()
     {
     }
 
-    public static UserBean login(UserBean bean)
+    public static UserRoleBean saveUserRole(UserRoleBean userrole)
     {
         Statement stmt;
+        String insertQuery;
+        stmt = null;
+        List<String> rolename = userrole.getUser_role();
+        String user_id = userrole.getUser_id();
+        String created_by = userrole.getCreated_by();
+        String date_created = userrole.getDate_created();
+        int i=0;
+        while(rolename.size()>i)
+        {
+           // String role_id=rolename.get(i);
+            String[] rolesplit=  (rolename.get(i)).split("$");
+
+            String role_id=rolesplit[0];
+            String deleteQuery=   "Delete From user_roles where user_id='"+user_id+"' and role_id NOT IN ('admin') ";
+            insertQuery = (new StringBuilder("INSERT INTO  user_roles  (user_id,role_id,created_by,date_created)  VALUES('")).append(user_id).append("','").append(role_id).append("','").append(created_by).append("','").append(date_created).append("') ").toString();
+
+            try
+            {
+                currentCon = ConnectionManager.getConnection();
+                stmt = currentCon.createStatement();
+                int del=  stmt.executeUpdate(deleteQuery);
+                int rs = stmt.executeUpdate(insertQuery);
+               // boolean inserted = rs.rowInserted();
+                if(rs==0)
+                {
+                    userrole.setInserted(false);
+
+                    System.out.println((new StringBuilder("Some roles were not inserted")));
+                }
+
+
+            }
+            catch(Exception ex)
+            {
+                ex.printStackTrace();
+                System.out.println((new StringBuilder("Could not insert role ")).append(ex).toString());
+            }
+
+
+
+            i++;
+        }
+      if(rs != null)
+        {
+            try
+            {
+                rs.close();
+            }
+            catch(Exception exception1) { }
+            rs = null;
+        }
+        if(stmt != null)
+        {
+            try
+            {
+                stmt.close();
+            }
+            catch(Exception exception2) { }
+            stmt = null;
+        }
+        if(currentCon != null)
+        {
+            try
+            {
+                currentCon.close();
+            }
+            catch(Exception exception3) { }
+            currentCon = null;
+        }
+
+        if(rs != null)
+        {
+            try
+            {
+                rs.close();
+            }
+            catch(Exception exception4) { }
+            rs = null;
+        }
+        if(stmt != null)
+        {
+            try
+            {
+                stmt.close();
+            }
+            catch(Exception exception5) { }
+            stmt = null;
+        }
+        if(currentCon != null)
+        {
+            try
+            {
+                currentCon.close();
+            }
+            catch(Exception exception6) { }
+            currentCon = null;
+        }
+
+        if(rs != null)
+        {
+            try
+            {
+                rs.close();
+            }
+            catch(Exception exception7) { }
+            rs = null;
+        }
+        if(stmt != null)
+        {
+            try
+            {
+                stmt.close();
+            }
+            catch(Exception exception8) { }
+            stmt = null;
+        }
+        if(currentCon != null)
+        {
+            try
+            {
+                currentCon.close();
+            }
+            catch(Exception exception9) { }
+            currentCon = null;
+        }
+        return userrole;
+    }
+
+    public static int saveUserRoles(UserRoleBean role, String[] values)
+    {
+        Statement stmt;
+        String insertQuery;
+        stmt = null;
+        //String roleid;
+        String user_id = role.getUser_id();
+        String created_by = role.getCreated_by();
+        String date_created = role.getDate_created();
+        currentCon = ConnectionManager.getConnection();
+        int i=0;
+        int insertedroles=0;
+        String deleteQuery=   "Delete From user_roles where user_id='"+user_id+"' and role_id NOT IN ('admin') ";
+        try
+        {
+
+            stmt = currentCon.createStatement();
+            int del=  stmt.executeUpdate(deleteQuery);
+            if(del==1)
+            {
+                System.out.println((new StringBuilder("Deleted user roles")));
+
+            }
+            else
+            {
+                System.out.println((new StringBuilder("Could not delete user roles")));
+            }
+        }
+       catch(Exception ex)
+            {
+                ex.printStackTrace();
+                System.out.println((new StringBuilder("Could not insert role ")).append(ex).toString());
+            }
+
+
+        while(values.length > i)
+        {
+            String role_id=values[i];
+         //   System.out.println(role_id);
+
+             insertQuery = (new StringBuilder("INSERT INTO  user_roles  (user_id,role_id,created_by,date_created)  VALUES('")).append(user_id).append("','").append(role_id).append("','").append(created_by).append("','").append(date_created).append("') ").toString();
+          //  System.out.println(insertQuery);
+            try
+            {
+
+                stmt = currentCon.createStatement();
+
+                int rs = stmt.executeUpdate(insertQuery);
+                if(rs==1)
+                {
+                    insertedroles++;
+
+                }
+                else
+                {
+
+                    role.setInserted(false);
+                //    System.out.println((new StringBuilder("Some roles were not inserted")));
+                }
+
+             //   System.out.println((new StringBuilder(insertedroles+"were inserted")));
+
+            }
+            catch(Exception ex)
+            {
+                ex.printStackTrace();
+                System.out.println((new StringBuilder("Could not insert user role ")).append(ex).toString());
+            }
+
+
+
+            i++;
+        }
+        if(rs != null)
+        {
+            try
+            {
+                rs.close();
+            }
+            catch(Exception exception1) { }
+            rs = null;
+        }
+        if(stmt != null)
+        {
+            try
+            {
+                stmt.close();
+            }
+            catch(Exception exception2) { }
+            stmt = null;
+        }
+        if(currentCon != null)
+        {
+            try
+            {
+                currentCon.close();
+            }
+            catch(Exception exception3) { }
+            currentCon = null;
+        }
+
+        if(rs != null)
+        {
+            try
+            {
+                rs.close();
+            }
+            catch(Exception exception4) { }
+            rs = null;
+        }
+        if(stmt != null)
+        {
+            try
+            {
+                stmt.close();
+            }
+            catch(Exception exception5) { }
+            stmt = null;
+        }
+        if(currentCon != null)
+        {
+            try
+            {
+                currentCon.close();
+            }
+            catch(Exception exception6) { }
+            currentCon = null;
+        }
+
+        if(rs != null)
+        {
+            try
+            {
+                rs.close();
+            }
+            catch(Exception exception7) { }
+            rs = null;
+        }
+        if(stmt != null)
+        {
+            try
+            {
+                stmt.close();
+            }
+            catch(Exception exception8) { }
+            stmt = null;
+        }
+        if(currentCon != null)
+        {
+            try
+            {
+                currentCon.close();
+            }
+            catch(Exception exception9) { }
+            currentCon = null;
+        }
+        return insertedroles;
+    }
+
+    public static ArrayList viewUserRoles()
+    {
+        Statement stmt;
+        ArrayList roles;
         String searchQuery;
         stmt = null;
-        String username = bean.getUsername();
-        String password = null;
-        try {
-            password = toMD5(bean.getPassword());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        searchQuery = (new StringBuilder("select * from users where username='")).append(username).append("' AND password='").append(password).append("'").toString();
-        System.out.println((new StringBuilder("Your user name is ")).append(username).toString());
-        System.out.println((new StringBuilder("Your password is ")).append(password).toString());
-        System.out.println((new StringBuilder("Query: ")).append(searchQuery).toString());
+        roles = new ArrayList();
+        searchQuery = "select * from roles";
         try
         {
             currentCon = ConnectionManager.getConnection();
             stmt = currentCon.createStatement();
-            rs = stmt.executeQuery(searchQuery);
-            boolean more = rs.next();
-            if(!more)
+            RoleBean role;
+            for(rs = stmt.executeQuery(searchQuery); rs.next();)
             {
-                System.out.println("Sorry, you are not a registered user! Please sign up first");
-                bean.setValid(false);
-            } else
-            if(more)
-            {
-                String firstName = rs.getString("FirstName");
-                String lastName = rs.getString("LastName");
-                System.out.println((new StringBuilder("Welcome ")).append(firstName).toString());
-                bean.setFirst_name(firstName);
-                bean.setLast_name(lastName);
-                bean.setValid(true);
+                role = new RoleBean();
+                role.setRole(rs.getString("role"));
+                role.setApp_name(rs.getString("app_name"));
+                role.setApp_url(rs.getString("app_url"));
+                role.setApp_url(rs.getString("icon_name"));
+                role.setRole_description(rs.getString("role_description"));
+                role.setDate_created(rs.getString("date_created"));
+                role.setCreated_by(rs.getString("created_by"));
+                roles.add(role);
             }
+
 
         }
         catch(Exception ex)
@@ -144,29 +422,56 @@ public class UserDAO
             catch(Exception exception9) { }
             currentCon = null;
         }
-        return bean;
+        return roles;
     }
 
-    public static UserBean setUser(int Id)
+    public static UserRoleBean viewUserRole( UserRoleBean role)
     {
         Statement stmt;
-        UserBean user;
-        String getQuery;
+
+        String user_id=role.getUser_id();
+        String searchQuery;
+        List<String> theuserroles;
+        theuserroles=new ArrayList<String>();
         stmt = null;
-        user = new UserBean();
-        getQuery = (new StringBuilder("Select * from users where id='")).append(Id).append("'").toString();
+        role = new UserRoleBean();
+        searchQuery = (new StringBuilder("select * from user_roles WHERE user_id= '")).append(user_id).append("'").toString();
         try
         {
             currentCon = ConnectionManager.getConnection();
-            stmt = currentCon.createStatement();
-            for(rs = stmt.executeQuery(getQuery); rs.next(); user.setSecret_answer(rs.getString("secret_answer")))
+
+            PreparedStatement ps = currentCon.prepareStatement("select * from user_roles where user_id=? and role_id <>? ");
+            ps.setString(1, user_id);
+            ps.setString(2, "admin");
+            //    stmt = currentCon.createStatement();
+            //UserRoleBean role;
+            String thisuserroles;
+            for(rs = ps.executeQuery(); rs.next(); )
             {
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                user.setEmail(rs.getString("email"));
-                user.setFirst_name(rs.getString("first_name"));
-                user.setLast_name(rs.getString("last_name"));
-                user.setSecret_question(rs.getString("secret_question"));
+                String roleid=rs.getString("role_id");
+                thisuserroles=  roleid+"$";
+                searchQuery = "select * from roles where role_id='"+roleid+"'";
+                stmt = currentCon.createStatement();
+                ResultSet roleset= stmt.executeQuery(searchQuery);
+                while(roleset.next())
+                {
+                    thisuserroles=thisuserroles+ roleset.getString("role")+"$"+ roleset.getString("role_description")+"$"+ roleset.getString("app_url")+"$"+ roleset.getString("app_name")+"$"+ roleset.getString("icon_name");
+
+                }
+                if(roleset != null)
+                {
+                    try
+                    {
+                        roleset.close();
+                    }
+                    catch(Exception exception1) { }
+                    roleset=null;
+
+                }
+
+
+                theuserroles.add(thisuserroles);
+
             }
 
 
@@ -174,7 +479,7 @@ public class UserDAO
         catch(Exception ex)
         {
             ex.printStackTrace();
-            System.out.println((new StringBuilder("Insert failed: An Exception has occurred! ")).append(ex).toString());
+            System.out.println((new StringBuilder("Checking roles Failed: An Exception has occurred! ")).append(ex).toString());
         }
         if(rs != null)
         {
@@ -259,29 +564,58 @@ public class UserDAO
             catch(Exception exception9) { }
             currentCon = null;
         }
-        return user;
+        role.setUser_role(theuserroles);
+        return role;
     }
 
-    public static UserBean setUser(String Id)
+    public static boolean isAdmin( String userid)
     {
         Statement stmt;
-        UserBean user;
-        String getQuery;
+
+         boolean isadmin=false;
+        String searchQuery;
+
+
         stmt = null;
-        user = new UserBean();
-        getQuery = (new StringBuilder("Select * from users where username='")).append(Id).append("'").toString();
+
+        searchQuery = (new StringBuilder("select * from user_roles WHERE user_id= '")).append(userid).append("'").toString();
         try
         {
             currentCon = ConnectionManager.getConnection();
-            stmt = currentCon.createStatement();
-            for(rs = stmt.executeQuery(getQuery); rs.next(); user.setSecret_answer(rs.getString("secret_answer")))
+
+            PreparedStatement ps = currentCon.prepareStatement("select * from user_roles where user_id=?");
+            ps.setString(1, userid);
+            //    stmt = currentCon.createStatement();
+            //UserRoleBean role;
+            String thisuserroles;
+            for(rs = ps.executeQuery(); rs.next(); )
             {
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                user.setEmail(rs.getString("email"));
-                user.setFirst_name(rs.getString("first_name"));
-                user.setLast_name(rs.getString("last_name"));
-                user.setSecret_question(rs.getString("secret_question"));
+                String roleid=rs.getString("role_id");
+                searchQuery = "select * from roles where role_id='"+roleid+"'";
+                stmt = currentCon.createStatement();
+                ResultSet roleset= stmt.executeQuery(searchQuery);
+                while(roleset.next())
+                {
+                    if(roleset.getString("role").equals("Admin"))
+                    {
+                      isadmin=true;
+                    }
+
+                }
+                if(roleset != null)
+                {
+                    try
+                    {
+                        roleset.close();
+                    }
+                    catch(Exception exception1) { }
+                    roleset=null;
+
+                }
+
+
+
+
             }
 
 
@@ -289,7 +623,7 @@ public class UserDAO
         catch(Exception ex)
         {
             ex.printStackTrace();
-            System.out.println((new StringBuilder("Insert failed: An Exception has occurred! ")).append(ex).toString());
+            System.out.println((new StringBuilder("Checking roles Failed: An Exception has occurred! ")).append(ex).toString());
         }
         if(rs != null)
         {
@@ -374,48 +708,56 @@ public class UserDAO
             catch(Exception exception9) { }
             currentCon = null;
         }
-        return user;
+
+        return isadmin;
     }
 
-    public static UserBean createuser(UserBean thisBean)
+
+
+
+
+    public static UserRoleBean setUserRole( UserRoleBean role,String[] values)
     {
         Statement stmt;
-        String insertQuery;
+
+        String user_id=role.getUser_id();
+        String searchQuery;
+        List<String> theuserroles;
+        theuserroles=new ArrayList<String>();
         stmt = null;
-        String username = thisBean.getUsername();
-        String password = null;
-        try {
-            password = toMD5(thisBean.getPassword());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        String firstname = thisBean.getFirst_name();
-        String lastname = thisBean.getLast_name();
-        String email = thisBean.getEmail();
-        String secretquestion = thisBean.getSecret_question();
-        String secretanswer = thisBean.getSecret_answer();
-        insertQuery = (new StringBuilder("INSERT INTO users (username,password,first_name,last_name,email,secret_question,secret_answer) VALUES ( '")).append(username).append("','").append(password).append("','").append(firstname).append("','").append(lastname).append("','").append(email).append("','").append(secretquestion).append("','").append(secretanswer).append("') ").toString();
-       // System.out.println(insertQuery);
+        //role = new UserRoleBean();
+        int i=0;
+        while(values.length >i)
+        {
+        String role_id= values[i];
+        // searchQuery = (new StringBuilder("select * from roles WHERE user_id= '")).append(user_id).append("'").toString();
         try
         {
             currentCon = ConnectionManager.getConnection();
-            stmt = currentCon.createStatement();
-            int rs = stmt.executeUpdate(insertQuery);
-          //  System.out.println("RS VALUE: "+rs);
-           // boolean inserted = rs..rowInserted();
-            if(rs==0)
+
+            PreparedStatement ps = currentCon.prepareStatement("select * from roles where role_id=?");
+            ps.setString(1, role_id);
+            //    stmt = currentCon.createStatement();
+           // UserRoleBean role;
+            String thisuserroles;
+            for(rs = ps.executeQuery(); rs.next(); )
             {
-                System.out.println("Sorry, The record was not inserted");
-                thisBean.setInserted(false);
-            } else
-            if(rs==1)
-                thisBean.setInserted(true);
+                thisuserroles=  role_id+":";
+                thisuserroles=    thisuserroles+rs.getString("role")+":"+ rs.getString("role_description")+":"+ rs.getString("app_url");
+
+
+                theuserroles.add(thisuserroles);
+
+            }
+
+
 
         }
         catch(Exception ex)
         {
             ex.printStackTrace();
-            System.out.println((new StringBuilder("Insert failed: An Exception has occurred! ")).append(ex).toString());
+            System.out.println((new StringBuilder("Checking roles Failed: An Exception has occurred! ")).append(ex).toString());
+        }
         }
         if(rs != null)
         {
@@ -500,387 +842,20 @@ public class UserDAO
             catch(Exception exception9) { }
             currentCon = null;
         }
-        return thisBean;
-    }
-
-    public static UserBean updateuser(UserBean thisBean)
-    {
-        Statement stmt;
-        String insertQuery;
-        stmt = null;
-        String username = thisBean.getUsername();
-        String password = null;
-        try {
-            password = toMD5(thisBean.getPassword());
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        String firstname = thisBean.getFirst_name();
-        String lastname = thisBean.getLast_name();
-        String email = thisBean.getEmail();
-        String secretquestion = thisBean.getSecret_question();
-        String secretanswer = thisBean.getSecret_answer();
-        insertQuery = "Update users set password='"+password+"',first_name='"+firstname+"',last_name='"+lastname+"',email='"+email+"'," +
-            "secret_question='"+secretquestion+"',secret_answer='"+secretanswer+"',username='"+username+"' WHERE username='"+username+"' ";
-        System.out.println(insertQuery);
-        try
-        {
-            currentCon = ConnectionManager.getConnection();
-            stmt = currentCon.createStatement();
-            int rs = stmt.executeUpdate(insertQuery);
-            //  System.out.println("RS VALUE: "+rs);
-            // boolean inserted = rs..rowInserted();
-            if(rs==0)
-            {
-                System.out.println("Sorry, The record was not inserted");
-                thisBean.setInserted(false);
-            } else
-            if(rs==1)
-                thisBean.setInserted(true);
-
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-            System.out.println((new StringBuilder("Insert failed: An Exception has occurred! ")).append(ex).toString());
-        }
-        if(rs != null)
-        {
-            try
-            {
-                rs.close();
-            }
-            catch(Exception exception1) { }
-            rs = null;
-        }
-        if(stmt != null)
-        {
-            try
-            {
-                stmt.close();
-            }
-            catch(Exception exception2) { }
-            stmt = null;
-        }
-        if(currentCon != null)
-        {
-            try
-            {
-                currentCon.close();
-            }
-            catch(Exception exception3) { }
-            currentCon = null;
-        }
-
-        if(rs != null)
-        {
-            try
-            {
-                rs.close();
-            }
-            catch(Exception exception4) { }
-            rs = null;
-        }
-        if(stmt != null)
-        {
-            try
-            {
-                stmt.close();
-            }
-            catch(Exception exception5) { }
-            stmt = null;
-        }
-        if(currentCon != null)
-        {
-            try
-            {
-                currentCon.close();
-            }
-            catch(Exception exception6) { }
-            currentCon = null;
-        }
-
-        if(rs != null)
-        {
-            try
-            {
-                rs.close();
-            }
-            catch(Exception exception7) { }
-            rs = null;
-        }
-        if(stmt != null)
-        {
-            try
-            {
-                stmt.close();
-            }
-            catch(Exception exception8) { }
-            stmt = null;
-        }
-        if(currentCon != null)
-        {
-            try
-            {
-                currentCon.close();
-            }
-            catch(Exception exception9) { }
-            currentCon = null;
-        }
-        return thisBean;
-    }
-
-
-    public static String toMD5(String aValue) throws NoSuchAlgorithmException {
-
-        if (aValue == null)
-            return null;
-
-
-        MessageDigest m=MessageDigest.getInstance("MD5");
-        m.update(aValue.getBytes(),0,aValue.length());
-        String result = new BigInteger(1,m.digest()).toString(16);
-        return (result.length() < 32 ? "0" + result:result);
+        role.setUser_role(theuserroles);
+        return role;
 
     }
 
 
 
 
-    public static ArrayList<UserBean> getAllUsers()
-    {
-        ArrayList<UserBean> users=new  ArrayList<UserBean>();
-        Statement stmt;
-        String getQuery;
-        stmt = null;
-
-
-        getQuery = (new StringBuilder("Select * from users")).toString();
-        try
-        {
-            currentCon = ConnectionManager.getConnection();
-            stmt = currentCon.createStatement();
-            rs = stmt.executeQuery(getQuery);
-            while(rs.next())
-            {
-                UserBean user=new UserBean();
-                user.setUsername(rs.getString("username"));
-                user.setPassword(rs.getString("password"));
-                user.setEmail(rs.getString("email"));
-                user.setFirst_name(rs.getString("first_name"));
-                user.setLast_name(rs.getString("last_name"));
-                user.setSecret_question(rs.getString("secret_question"));
-                System.out.println(rs.getString("username"));
-
-                users.add(user);
-
-            }
-
-
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-            System.out.println((new StringBuilder("Reading database failed: An Exception has occurred! ")).append(ex).toString());
-        }
-        if(rs != null)
-        {
-            try
-            {
-                rs.close();
-            }
-            catch(Exception exception1) { }
-            rs = null;
-        }
-        if(stmt != null)
-        {
-            try
-            {
-                stmt.close();
-            }
-            catch(Exception exception2) { }
-            stmt = null;
-        }
-        if(currentCon != null)
-        {
-            try
-            {
-                currentCon.close();
-            }
-            catch(Exception exception3) { }
-            currentCon = null;
-        }
-
-        if(rs != null)
-        {
-            try
-            {
-                rs.close();
-            }
-            catch(Exception exception4) { }
-            rs = null;
-        }
-        if(stmt != null)
-        {
-            try
-            {
-                stmt.close();
-            }
-            catch(Exception exception5) { }
-            stmt = null;
-        }
-        if(currentCon != null)
-        {
-            try
-            {
-                currentCon.close();
-            }
-            catch(Exception exception6) { }
-            currentCon = null;
-        }
-
-        if(rs != null)
-        {
-            try
-            {
-                rs.close();
-            }
-            catch(Exception exception7) { }
-            rs = null;
-        }
-        if(stmt != null)
-        {
-            try
-            {
-                stmt.close();
-            }
-            catch(Exception exception8) { }
-            stmt = null;
-        }
-        if(currentCon != null)
-        {
-            try
-            {
-                currentCon.close();
-            }
-            catch(Exception exception9) { }
-            currentCon = null;
-        }
-        return users;
-    }
-
-
-
-    public static int removeUser(UserBean user)
-    {
-        Statement stmt;
-        String getQuery;
-        stmt = null;
-        int success;
-        success=0;
-        String username=user.getUsername();
-
-        getQuery = "Update users set voided=1 where username='"+username+"'";
-        try
-        {
-           currentCon = ConnectionManager.getConnection();
-           stmt = currentCon.createStatement();
-          success = stmt.executeUpdate(getQuery);
 
 
 
 
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-            System.out.println((new StringBuilder("Reading database failed: An Exception has occurred! ")).append(ex).toString());
-        }
-        if(rs != null)
-        {
-            try
-            {
-                rs.close();
-            }
-            catch(Exception exception1) { }
-            rs = null;
-        }
-        if(stmt != null)
-        {
-            try
-            {
-                stmt.close();
-            }
-            catch(Exception exception2) { }
-            stmt = null;
-        }
-        if(currentCon != null)
-        {
-            try
-            {
-                currentCon.close();
-            }
-            catch(Exception exception3) { }
-            currentCon = null;
-        }
 
-        if(rs != null)
-        {
-            try
-            {
-                rs.close();
-            }
-            catch(Exception exception4) { }
-            rs = null;
-        }
-        if(stmt != null)
-        {
-            try
-            {
-                stmt.close();
-            }
-            catch(Exception exception5) { }
-            stmt = null;
-        }
-        if(currentCon != null)
-        {
-            try
-            {
-                currentCon.close();
-            }
-            catch(Exception exception6) { }
-            currentCon = null;
-        }
 
-        if(rs != null)
-        {
-            try
-            {
-                rs.close();
-            }
-            catch(Exception exception7) { }
-            rs = null;
-        }
-        if(stmt != null)
-        {
-            try
-            {
-                stmt.close();
-            }
-            catch(Exception exception8) { }
-            stmt = null;
-        }
-        if(currentCon != null)
-        {
-            try
-            {
-                currentCon.close();
-            }
-            catch(Exception exception9) { }
-            currentCon = null;
-        }
-        return success;
-    }
 
 
 
