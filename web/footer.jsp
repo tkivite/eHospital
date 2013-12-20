@@ -11,11 +11,16 @@
   
   <link rel="stylesheet" href="resources/css/header.css">
   <link rel="stylesheet" href="resources/css/style.css">
+    <script src="resources/js/move_divs.js"  type="text/javascript"></script>
   </head>
  <div id="footer" style="windth:100%; position:fixed; bottom:0px;">
   <div class="bgl">
     <div class="bgr">
     &copy; eHospital By intelloSOFT Consulting: Powered by  kenyaEMR and openERP </div>
   </div>
+
+
+
+
 </div>
 </html>

@@ -1,0 +1,1 @@
+<iframe src='http://localhost:8069/?ts=1387201935985#view_type=kanban&model=hr.employee&menu_id=292&action=336' style="position:relative;left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0;" scrolling="no"> </iframe>

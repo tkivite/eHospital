@@ -38,12 +38,13 @@
         <p><label>Last Name: </label><input type="text" name="lastname" value="<%= currentUser.getLast_name()%>" placeholder="Last Name"></p>
         
         <p><label>Email: </label><input type="text" name="email" value="<%= currentUser.getEmail()%>" placeholder="Email" ></p>
+
         <p><label>Secret Question: </label><input type="text" name="secretquestion" value="<%= currentUser.getSecret_question()%>" placeholder="Secret Question"></p>
         <p><label>Secret Answer: </label><input type="text" name="secretanswer" value="<%= currentUser.getSecret_answer()%>" placeholder="Secret Answer"></p>
                
         <p><label>Username: </label><input type="text" name="username" value="<%= currentUser.getUsername()%>" placeholder="Username"></p>
-        <p><label>Password: </label><input type="password" name="password" value="<%= currentUser.getPassword()%>" placeholder="Password"></p>
-        <p><label>Confirm Password: </label><input type="text" name="confirm_password" value="<%= currentUser.getPassword()%>" placeholder="......"></p>
+        <p><label>Password: </label><input type="password" name="password" value="" placeholder="Password"></p>
+        <p><label>Confirm Password: </label><input type="text" name="confirm_password" value="" placeholder="......"></p>
 
   
          

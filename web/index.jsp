@@ -31,15 +31,7 @@
       <form method="post" action="home" id="form_login">
         <p><input type="text" name="username" value="" placeholder="Username"></p>
         <p><input type="password" name="password" value="" placeholder="Password"></p>
-        <p class="remember_me">
-          <%
-		    if(request.getAttribute("loginResult") != null && request.getAttribute("loginResult") == "true"){
-		  %>
-		 <p style="color:red"> Login Failed. Please try again. </p>
-		  <%
-		    }
-		   %>
-          <p>
+
           <label>
             <input type="checkbox" name="remember_me" id="remember_me">
             Remember me on this computer
@@ -48,14 +40,14 @@
         
          <p align="centre">
           <input  type="submit" name="commit" value="Login">
-          <input  type="submit" name="cancel" value="Cancel" onClick="cancel("form_login")">
+          <input  type="submit" name="cancel" value="Cancel" onClick="cancel('form_login')">
           </p>
          
       </form>
     </div>
 
     <div class="login-help">
-      <p>Forgot your password? <a href="#" onClick="loadUserProfile("edit")">Click here to reset</a>.</p>
+      <p>Forgot your password? <a href="#" onClick="loadUserProfile('edit')">Click here to reset</a>.</p>
     </div>
   </section>
 

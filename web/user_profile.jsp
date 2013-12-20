@@ -9,60 +9,62 @@
 
 <%@ page language="java" contentType="text/html; charset=windows-1256" pageEncoding="windows-1256" %>
 <%@ page import="eHospitalUserManagement.UserBean" %>
+<%@ page import="eHospitalUserManagement.UserDAO" %>
+<% UserBean currentUser= UserDAO.setUser(request.getRemoteUser());%>
 
-<!DOCTYPE html>
-<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
-<!--[if IE 7]> <html class="lt-ie9 lt-ie8" lang="en"> <![endif]-->
-<!--[if IE 8]> <html class="lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en"> <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>New User Form</title>
-  <link rel="stylesheet" href="resources/css/style.css">
-  <script src="resources/js/eHospital.js"> </script>
-  <script src="resources/js/validate.js"> </script>
-  <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  
-</head>
-<body>
 
-<% UserBean currentUser= UserBean.class.cast(session.getAttribute("currentSessionUser"));%>
- 
-  <section class="container1" >
-    <div class="newuser">
-      <h1>Edit user details for currentUser <%= currentUser.getFirst_name() + " " + currentUser.getLast_name()%></h1>
-      
-      
-      <form id="form_user_profile" name="form_user_profile" method="post" action="newuser">
-        <table>
-		<tr><td><p><label>First Name: </label></p></td><td><p><input type="text" name="firstname" value= <%= currentUser.getFirst_name()%> placeholder="First Name"></p></td><td><p><label>Last Name: </label></p></td><td><p><input type="text" name="lastname" value= <%= currentUser.getLast_name()%> placeholder="Last Name"></p></td></tr>
-		
-		<tr><td><p><label>Secret Question: </label></p></td><td><p><input type="text" name="firstname" value= <%= currentUser.getSecret_question()%> placeholder="First Name"></p></td><td><p><label>Secret Answer: </label></p></td><td><p><input type="text" name="firstname" value= <%= currentUser.getSecret_answer()%> placeholder="First Name"></p></td></tr>
-        
-		<tr><td><p><label>Email: </label></p></td><td><p><input type="text" name="email" value= <%= currentUser.getEmail()%> placeholder="Email"></p></td><td><p><label>Username: </label></p></td><td><p><input type="text" name="username" value= <%= currentUser.getUsername()%> placeholder="Username"></p></td></tr>
-        
-		<tr><td><p><label>Password: </label></p></td><td><p><input type="text" name="password" value= <%= currentUser.getPassword()%> placeholder="Password"></p></td><td><p><label>Confirm Password: </label></p></td><td><p><input type="text" name="confirm_password" value= <%= currentUser.getPassword()%> placeholder="Password"></p></td></tr>
-         
-		<tr><td colspan="2"></td><td align="right"></td><td>
-		 <p class="submit" align="left"><input type="submit" name="save" id="save" value="Save" ></p>
-		<p class="submit" align="right"><input type="submit" name="edit" id="edit" value="Edit" style="visibility:hidden" onClick="loadUserProfile("edit")" ></p>
-		
-		</td></tr> 
-		
-		</table>
-        
-       
-       
-		
-      </form>
-  
-      
-      
-      </div>
+                    <div id="user_profile_div" style="height: 350px; width: 1000px ">
+                        <ul>
+                            <li>
 
-    
-  </section>
+                                <section class="container">
+                                    <div class="login">
+                                        <table>
+                                            <tr>
+                                                <td style="text-align: right; border: none"> <h1 class="JSPOPUP_titleBar">User Profile for <%= currentUser.getFirst_name()%>  <%= currentUser.getLast_name()%></h1></td>
+                                                <td style="text-align: right; border: none"><h1><span style="text-align: left" ><a href="#"  onclick="editUserProfile()">Edit  </a></span><span style="text-align: right"><a id="closepopup" class="JSPOPUP_close" href="#" >
+                                                    <img src="resources/img/close.png" alt="Close" />
+                                                </a></span></h1></td>
+                                            </tr>
+                                        </table>
 
-</body>
-</html>
+                                        <script type="text/javascript">
+                                            $("#form_user_profile :input").attr("disabled", true);
+
+                                        </script>
+                                        <form id="form_user_profile" name="form_user_profile" method="post" action="newuser">
+                                            <table>
+                                                <tr><td><p><label>First Name: </label></p></td><td><p><input type="text" name="firstname" value= "<%= currentUser.getFirst_name()%>" placeholder="First Name"></p></td><td><p><label>Last Name: </label></p></td><td><p><input type="text" name="lastname" value= "<%= currentUser.getLast_name()%>" placeholder="Last Name"></p></td></tr>
+
+                                                <tr><td><p><label>Secret Question: </label></p></td><td><p><input type="text" name="firstname" value= "<%= currentUser.getSecret_question()%>" placeholder="First Name"></p></td><td><p><label>Secret Answer: </label></p></td><td><p><input type="text" name="firstname" value= "<%= currentUser.getSecret_answer()%>" placeholder="First Name"></p></td></tr>
+
+                                                <tr><td><p><label>Email: </label></p></td><td><p><input type="text" name="email" value= "<%= currentUser.getEmail()%>" placeholder="Email"></p></td><td><p><label>Username: </label></p></td><td><p><input type="text" name="username" value= "<%= currentUser.getUsername()%> " placeholder="Username"></p></td></tr>
+
+                                                <tr><td><p><label>Password: </label></p></td><td><p><input type="text" name="password" value= "" placeholder="Password"></p></td><td><p><label>Confirm Password: </label></p></td><td><p><input type="text" name="confirm_password" value= ""placeholder="Password"></p></td></tr>
+
+                                                <tr><td colspan="2"></td><td align="right"></td><td>
+                                                    <p  class="submit" ><input type="button" name="editUser" value="Edit" id="editUser" onclick="editUserProfile()">
+                                                    <p  class="submit" ><input type="button" name="saveEditUser" id="saveEditUser" value="Save" style="visibility: hidden" onclick="saveUser('Edit')">
+
+
+                                                </td></tr>
+
+                                            </table>
+
+
+
+
+                                        </form>
+
+
+
+
+                                    </div>
+
+
+                                </section>
+                            </li>
+                        </ul>
+                        <input type="hidden" id="roleId" name="roleId" value=""    />
+
+                    </div>
